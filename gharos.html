@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> KUVEXO CORE — Premium App </title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Sora:wght@300;400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   KUVEXO CORE — DESIGN SYSTEM
+============================================ */
+:root {
+  --bg:        #04050d;
+  --bg2:       #080a18;
+  --card:      rgba(255,255,255,0.038);
+  --border:    rgba(255,255,255,0.07);
+  --blue:      #3d8ef8;
+  --cyan:      #00e5ff;
+  --purple:    #9b6bff;
+  --violet:    #c084fc;
+  --green:     #00ffc3;
+  --gold:      #ffd166;
+  --text:      #eef2ff;
+  --muted:     rgba(238,242,255,0.42);
+  --brand:     #00e5ff;
+  --brand2:    #9b6bff;
+  --glow-b:    0 0 60px rgba(0,229,255,0.18);
+  --glow-p:    0 0 60px rgba(155,107,255,0.2);
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ---- GLOBAL BG MESH ---- */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 5%,  rgba(0,229,255,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 90%, rgba(155,107,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 50% 45%, rgba(61,142,248,0.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--purple)); border-radius:4px; }
+
+.wrap { max-width:960px; margin:0 auto; padding:0 22px; position:relative; z-index:1; }
+
+/* ============================================
+   SPLASH SCREEN LIVE DEMO
+============================================ */
+.splash-demo-section {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.splash-demo-outer {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Orb particles in splash bg */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0;
+  animation: orbPulse 8s ease-in-out infinite;
+}
+.orb1 { width:500px; height:500px; background: radial-gradient(circle, rgba(0,229,255,0.18), transparent 70%); top:-100px; left:-150px; animation-delay:0s; }
+.orb2 { width:400px; height:400px; background: radial-gradient(circle, rgba(155,107,255,0.18), transparent 70%); bottom:-80px; right:-100px; animation-delay:2s; }
+.orb3 { width:300px; height:300px; background: radial-gradient(circle, rgba(61,142,248,0.12), transparent 70%); top:40%; left:60%; animation-delay:4s; }
+
+@keyframes orbPulse {
+  0%,100% { opacity:0.5; transform:scale(1); }
+  50% { opacity:1; transform:scale(1.15); }
+}
+
+/* Grid lines */
+.grid-lines {
+  position: absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Top bar */
+.splash-topbar {
+  position: absolute; top: 0; left:0; right:0;
+  display: flex; justify-content:space-between; align-items:center;
+  padding: 20px 28px;
+  z-index:10;
+}
+.splash-topbar-badge {
+  font-family:'Sora',sans-serif; font-size:11px; font-weight:600;
+  color: var(--cyan); letter-spacing:2px; text-transform:uppercase;
+  background: rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.2);
+  padding:5px 14px; border-radius:50px;
+}
+.live-badge {
+  display:flex; align-items:center; gap:7px;
+  font-size:11px; color:var(--green); font-family:'Sora',sans-serif;
+  font-weight:600;
+}
+.live-dot {
+  width:8px; height:8px; border-radius:50%; background:var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ---- SPLASH CENTER CONTENT ---- */
+.splash-center {
+  position:relative; z-index:5;
+  display:flex; flex-direction:column; align-items:center;
+  gap:0;
+}
+
+/* Ring system */
+.ring-system {
+  position: relative;
+  width: 220px; height: 220px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom: 40px;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  animation: ringRotate 8s linear infinite;
+}
+.ring1 {
+  width:220px; height:220px;
+  border-color: rgba(0,229,255,0.3);
+  border-top-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(0,229,255,0.15), inset 0 0 20px rgba(0,229,255,0.05);
+  animation-duration: 6s;
+}
+.ring2 {
+  width:180px; height:180px;
+  border-color: rgba(155,107,255,0.25);
+  border-right-color: var(--purple);
+  animation-duration: 9s;
+  animation-direction: reverse;
+}
+.ring3 {
+  width:142px; height:142px;
+  border-color: rgba(61,142,248,0.2);
+  border-bottom-color: var(--blue);
+  animation-duration: 12s;
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Dots on rings */
+.ring-dot {
+  position:absolute;
+  width:8px; height:8px; border-radius:50%;
+  top: -4px; left: 50%; transform: translateX(-50%);
+}
+.ring1 .ring-dot { background:var(--cyan); box-shadow:0 0 12px var(--cyan); }
+.ring2 .ring-dot { background:var(--purple); box-shadow:0 0 12px var(--purple); top:auto; bottom:-4px; }
+
+/* Logo core */
+.logo-core {
+  position:relative; z-index:10;
+  width:100px; height:100px; border-radius:28px;
+  background: linear-gradient(135deg, #0a0520 0%, #140a35 40%, #0a1840 100%);
+  border: 1.5px solid rgba(0,229,255,0.35);
+  box-shadow:
+    0 0 40px rgba(0,229,255,0.25),
+    0 0 80px rgba(155,107,255,0.15),
+    inset 0 0 30px rgba(0,229,255,0.08);
+  display:flex; align-items:center; justify-content:center;
+  font-size:36px;
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%,100% { box-shadow: 0 0 40px rgba(0,229,255,0.25), 0 0 80px rgba(155,107,255,0.15), inset 0 0 30px rgba(0,229,255,0.08); }
+  50% { box-shadow: 0 0 60px rgba(0,229,255,0.45), 0 0 120px rgba(155,107,255,0.25), inset 0 0 40px rgba(0,229,255,0.15); }
+}
+
+/* Brand name */
+.brand-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 900;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--cyan) 0%, #fff 40%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color:transparent; background-clip:text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 20px rgba(0,229,255,0.4));
+  animation: brandReveal 1.5s cubic-bezier(0.22,1,0.36,1) both;
+  animation-delay: 0.3s;
+  margin-bottom: 8px;
+}
+
+@keyframes brandReveal {
+  from { opacity:0; transform:translateY(20px) scale(0.95); letter-spacing:20px; }
+  to   { opacity:1; transform:translateY(0) scale(1); letter-spacing:6px; }
+}
+
+.brand-sub {
+  font-family: 'Sora', sans-serif;
+  font-size: 12px; font-weight:600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: fadeUp 1s ease both;
+  animation-delay: 0.7s;
+  margin-bottom: 32px;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Loading bar */
+.splash-loader {
+  width: 180px; height: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  animation: fadeUp 1s ease both; animation-delay:1s;
+}
+.splash-loader-fill {
+  height:100%; border-radius:2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  box-shadow: 0 0 10px var(--cyan);
+  animation: loadFill 2.5s ease-in-out infinite;
+}
+@keyframes loadFill {
+  0%   { width:0%; opacity:1; }
+  80%  { width:100%; opacity:1; }
+  100% { width:100%; opacity:0; }
+}
+
+.splash-loading-text {
+  font-family:'Sora',sans-serif; font-size:10px;
+  letter-spacing:3px; color:var(--muted); text-transform:uppercase;
+  animation: fadeUp 1s ease both; animation-delay:1.1s;
+}
+
+/* Tagline bottom */
+.splash-tagline {
+  position:absolute; bottom:40px;
+  font-family:'Sora',sans-serif; font-size:13px;
+  color: var(--muted);
+  letter-spacing:2px;
+  animation: fadeUp 1s ease both; animation-delay:1.3s;
+}
+.splash-tagline strong { color:var(--cyan); font-weight:600; }
+
+/* Scroll arrow */
+.scroll-hint {
+  position:absolute; bottom:12px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  font-size:10px; color:rgba(255,255,255,0.2); font-family:'Sora',sans-serif; letter-spacing:2px;
+}
+.arrow-down { animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+
+/* ============================================
+   SECTION LAYOUT
+============================================ */
+.section { padding: 56px 0 0; }
+
+.sec-header {
+  display:flex; align-items:center; gap:14px;
+  margin-bottom: 34px;
+}
+.sec-num {
+  width:40px; height:40px; border-radius:12px; flex-shrink:0;
+  background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(155,107,255,0.15));
+  border: 1px solid rgba(0,229,255,0.25);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700;
+  color:var(--cyan);
+  box-shadow: 0 0 20px rgba(0,229,255,0.1);
+}
+.sec-title {
+  font-family:'Sora',sans-serif; font-size:22px; font-weight:800;
+  background: linear-gradient(90deg, var(--text) 60%, var(--cyan));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+/* CARD */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 28px 26px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  margin-bottom: 14px;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  position:relative; overflow:hidden;
+}
+.card::before {
+  content:''; position:absolute; inset:0; border-radius:22px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+.card:hover {
+  border-color: rgba(0,229,255,0.22);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3), var(--glow-b);
+}
+
+.divider {
+  height:1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.12) 30%, rgba(155,107,255,0.12) 70%, transparent 100%);
+  margin: 40px 0 0;
+}
+
+/* ============================================
+   SECTION 1 — APP NAMES
+============================================ */
+.names-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:580px){ .names-grid{ grid-template-columns:1fr; } }
+
+.name-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px; padding:24px 20px;
+  transition: all 0.35s; cursor:default; position:relative; overflow:hidden;
+}
+.name-card:hover { transform:translateY(-4px); }
+.name-card.star {
+  grid-column:1/-1;
+  border-color: rgba(0,229,255,0.25);
+  background: linear-gradient(135deg, rgba(0,229,255,0.06) 0%, rgba(155,107,255,0.06) 100%);
+}
+.star-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  background: linear-gradient(90deg, rgba(0,229,255,0.15), rgba(155,107,255,0.15));
+  border:1px solid rgba(0,229,255,0.3);
+  color:var(--cyan); font-size:10px; font-weight:700;
+  padding:3px 12px; border-radius:50px;
+  text-transform:uppercase; letter-spacing:1.5px;
+  font-family:'Orbitron',sans-serif;
+  margin-bottom:10px;
+}
+.name-big {
+  font-family:'Orbitron',sans-serif;
+  font-size:28px; font-weight:900; letter-spacing:2px;
+  margin-bottom:6px;
+}
+.name-card.star .name-big {
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  filter: drop-shadow(0 0 12px rgba(0,229,255,0.3));
+}
+.name-card:nth-child(2) .name-big { background:linear-gradient(135deg,#fff,var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.name-card:nth-child(3) .name-big { background:linear-gradient(135deg,#fff,var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.name-card:nth-child(4) .name-big { background:linear-gradient(135deg,#fff,var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.name-card:nth-child(5) .name-big { background:linear-gradient(135deg,#fff,var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.name-meaning { font-size:11px; color:var(--cyan); letter-spacing:1px; text-transform:uppercase; font-family:'Sora',sans-serif; font-weight:600; margin-bottom:7px; }
+.name-why { font-size:13px; color:var(--muted); line-height:1.6; }
+
+/* ============================================
+   SECTION 2 — LOGO
+============================================ */
+.logo-showcase {
+  display:flex; align-items:center; gap:32px; flex-wrap:wrap;
+}
+.logo-box {
+  width:110px; height:110px; border-radius:30px; flex-shrink:0;
+  background: linear-gradient(135deg, #060215 0%, #0d0630 45%, #060d25 100%);
+  border: 1.5px solid rgba(0,229,255,0.3);
+  box-shadow: 0 0 50px rgba(0,229,255,0.2), 0 0 100px rgba(155,107,255,0.12);
+  display:flex; align-items:center; justify-content:center;
+  font-size:40px; position:relative; overflow:hidden;
+  animation: logoPulse 3s ease-in-out infinite;
+}
+.logo-box::after {
+  content:'';
+  position:absolute; top:-25px; left:-25px;
+  width:70px; height:70px;
+  background: radial-gradient(circle, rgba(0,229,255,0.2), transparent 70%);
+  border-radius:50%;
+}
+
+.logo-info h3 {
+  font-family:'Orbitron',sans-serif; font-size:18px; font-weight:800;
+  letter-spacing:3px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:6px;
+}
+.logo-desc { font-size:13px; color:var(--muted); line-height:1.7; max-width:380px; }
+
+.palette { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.pal-chip {
+  display:flex; align-items:center; gap:8px;
+  background: rgba(255,255,255,0.04); border:1px solid var(--border);
+  border-radius:50px; padding:5px 12px 5px 8px; font-size:12px;
+  font-family:'Sora',sans-serif;
+}
+.pal-dot { width:18px; height:18px; border-radius:50%; flex-shrink:0; }
+
+/* ============================================
+   SECTION 3 — UI DESIGN SYSTEM
+============================================ */
+.design-pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.dpill {
+  font-size:12px; padding:5px 14px; border-radius:50px;
+  font-family:'Sora',sans-serif; font-weight:600;
+  background: rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.18);
+  color:rgba(0,229,255,0.85);
+}
+.dpill.p { background:rgba(155,107,255,0.08); border-color:rgba(155,107,255,0.2); color:rgba(192,132,252,0.85); }
+.dpill.g { background:rgba(0,255,195,0.07); border-color:rgba(0,255,195,0.18); color:rgba(0,255,195,0.8); }
+
+.typo-grid { display:flex; flex-direction:column; gap:0; }
+.typo-row {
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  padding:16px 0; border-bottom:1px solid var(--border);
+}
+.typo-row:last-child { border-bottom:none; }
+.typo-use { width:120px; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; font-family:'Sora',sans-serif; flex-shrink:0; }
+.typo-sample { flex:1; min-width:160px; }
+.typo-note { font-size:11px; color:var(--muted); }
+
+/* ============================================
+   SECTION 4 — HOME SCREEN MOCKUP
+============================================ */
+.mockup-wrap { display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:start; }
+@media(max-width:620px){ .mockup-wrap{ grid-template-columns:1fr; justify-items:center; } }
+
+.phone {
+  width:240px; flex-shrink:0;
+  background: linear-gradient(180deg, #080b1a 0%, #050710 100%);
+  border-radius:44px;
+  padding:18px 14px 28px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,0.025),
+    0 0 0 10px rgba(255,255,255,0.01),
+    0 50px 100px rgba(0,0,0,0.7),
+    0 0 80px rgba(0,229,255,0.08);
+  position:relative;
+}
+.phone-notch {
+  width:72px; height:22px; background:#000;
+  border-radius:0 0 16px 16px;
+  margin: 0 auto 14px;
+}
+.ph-topbar {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 4px; margin-bottom:12px;
+}
+.ph-greet { font-size:10px; color:var(--muted); font-family:'Sora',sans-serif; }
+.ph-greet strong { display:block; font-size:13px; color:var(--text); font-weight:700; }
+.ph-av {
+  width:30px; height:30px; border-radius:50%;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  display:flex; align-items:center; justify-content:center; font-size:13px;
+  box-shadow:0 0 12px rgba(0,229,255,0.4);
+}
+.ph-brand {
+  text-align:center; margin-bottom:12px;
+  font-family:'Orbitron',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:3px; color:var(--cyan); opacity:0.6;
+  text-transform:uppercase;
+}
+.ph-alert {
+  background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(155,107,255,0.06));
+  border:1px solid rgba(0,229,255,0.2);
+  border-radius:12px; padding:8px 10px; margin-bottom:12px;
+  font-size:9px; color:var(--text);
+  display:flex; align-items:center; gap:6px;
+}
+.ph-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.ph-btn {
+  background: rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px; padding:12px 8px; text-align:center;
+  transition:all 0.2s;
+}
+.ph-btn:hover { transform:scale(1.04); }
+.ph-btn .ico { font-size:20px; margin-bottom:4px; }
+.ph-btn .lbl { font-size:8px; color:var(--muted); font-family:'Sora',sans-serif; font-weight:600; }
+.ph-btn.c { border-color:rgba(0,229,255,0.25); background:rgba(0,229,255,0.06); }
+.ph-btn.p { border-color:rgba(155,107,255,0.25); background:rgba(155,107,255,0.06); }
+.ph-btn.g { border-color:rgba(0,255,195,0.25); background:rgba(0,255,195,0.05); }
+.ph-btn.b { border-color:rgba(61,142,248,0.25); background:rgba(61,142,248,0.06); }
+.ph-btn.wide { grid-column:1/-1; }
+
+/* ============================================
+   SECTION 5 — ALL SCREENS
+============================================ */
+.screens { display:flex; flex-direction:column; gap:10px; }
+.sc-row {
+  display:flex; align-items:flex-start; gap:14px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:18px; padding:18px 20px;
+  transition: border-color 0.3s;
+}
+.sc-row:hover { border-color:rgba(0,229,255,0.2); }
+.sc-id {
+  width:30px; height:30px; border-radius:9px; flex-shrink:0;
+  background: rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Orbitron',sans-serif; font-size:10px; font-weight:700; color:var(--cyan);
+  margin-top:2px;
+}
+.sc-body h4 { font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:4px; }
+.sc-body p { font-size:13px; color:var(--muted); }
+.sc-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.sc-tag {
+  font-size:10px; padding:2px 10px; border-radius:50px;
+  background:rgba(0,229,255,0.07); border:1px solid rgba(0,229,255,0.15);
+  color:rgba(0,229,255,0.75); font-family:'Sora',sans-serif;
+}
+.sc-tag.p { background:rgba(155,107,255,0.07); border-color:rgba(155,107,255,0.18); color:rgba(192,132,252,0.8); }
+
+/* ============================================
+   SECTION 6 — TECH STACK
+============================================ */
+.tech-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+@media(max-width:640px){ .tech-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:400px){ .tech-grid{ grid-template-columns:1fr; } }
+
+.tech-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:18px; padding:20px 16px;
+  transition: all 0.3s;
+}
+.tech-card:hover { border-color:rgba(0,229,255,0.2); transform:translateY(-2px); }
+.tech-badge {
+  display:inline-block; font-size:10px; padding:2px 10px;
+  border-radius:50px; margin-bottom:8px;
+  font-family:'Sora',sans-serif; font-weight:700; letter-spacing:0.5px;
+}
+.tb-best { background:rgba(0,229,255,0.1); color:var(--cyan); border:1px solid rgba(0,229,255,0.25); }
+.tb-free { background:rgba(0,255,195,0.1); color:var(--green); border:1px solid rgba(0,255,195,0.25); }
+.tb-paid { background:rgba(255,209,102,0.1); color:var(--gold); border:1px solid rgba(255,209,102,0.25); }
+.tech-card h4 { font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:5px; }
+.tech-card p { font-size:12px; color:var(--muted); line-height:1.6; }
+
+/* ============================================
+   SECTION 7 — BUILD STEPS
+============================================ */
+.steps { display:flex; flex-direction:column; }
+.step { display:flex; gap:16px; position:relative; }
+.step:not(:last-child)::after {
+  content:''; position:absolute; left:19px; top:42px;
+  width:2px; height:calc(100% - 16px);
+  background: linear-gradient(180deg, rgba(0,229,255,0.3), rgba(155,107,255,0.1));
+}
+.step-dot {
+  width:38px; height:38px; border-radius:12px; flex-shrink:0;
+  background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(155,107,255,0.2));
+  border:1px solid rgba(0,229,255,0.3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Orbitron',sans-serif; font-size:13px; font-weight:800; color:var(--cyan);
+  box-shadow:0 0 16px rgba(0,229,255,0.15); z-index:1;
+}
+.step-body { padding-bottom:28px; flex:1; }
+.step-body h4 { font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:4px; padding-top:7px; }
+.step-body p { font-size:13px; color:var(--muted); }
+
+/* ============================================
+   SECTION 8 — MONETIZATION
+============================================ */
+.mono-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+@media(max-width:600px){ .mono-grid{ grid-template-columns:1fr; } }
+.mono-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:20px; padding:22px 18px; text-align:center;
+  transition:all 0.3s;
+}
+.mono-card:hover { border-color:rgba(0,229,255,0.22); transform:translateY(-3px); }
+.mono-ico { font-size:30px; margin-bottom:10px; }
+.mono-ttl { font-family:'Sora',sans-serif; font-size:14px; font-weight:700; margin-bottom:4px; }
+.mono-amt { font-family:'Orbitron',sans-serif; font-size:20px; font-weight:800; color:var(--green); margin-bottom:8px; }
+.mono-desc { font-size:12px; color:var(--muted); }
+
+.rev-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:14px; }
+@media(max-width:600px){ .rev-grid{ grid-template-columns:1fr; } }
+.rev-box { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; text-align:center; }
+.rev-period { font-size:11px; color:var(--muted); margin-bottom:4px; font-family:'Sora',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+.rev-amt { font-family:'Orbitron',sans-serif; font-size:18px; font-weight:800; margin-bottom:4px; }
+.rev-users { font-size:11px; color:var(--muted); }
+
+/* ============================================
+   SECTION 9 — PRIVACY
+============================================ */
+.priv-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media(max-width:500px){ .priv-grid{ grid-template-columns:1fr; } }
+.priv-card {
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:16px;
+  transition: border-color 0.3s;
+}
+.priv-card:hover { border-color:rgba(0,229,255,0.2); }
+.priv-ico { font-size:22px; flex-shrink:0; }
+.priv-text strong { display:block; font-family:'Sora',sans-serif; font-size:13px; font-weight:700; margin-bottom:3px; }
+.priv-text span { font-size:12px; color:var(--muted); }
+
+/* ============================================
+   SECTION 10 — PLAYSTORE
+============================================ */
+.checklist { display:flex; flex-direction:column; gap:10px; }
+.chk-item {
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:14px 16px;
+}
+.chk-ico { font-size:18px; flex-shrink:0; }
+.chk-text { font-size:13px; }
+.chk-text strong { font-family:'Sora',sans-serif; font-size:13px; display:block; margin-bottom:2px; }
+.chk-text span { color:var(--muted); font-size:12px; }
+
+/* ============================================
+   FOOTER
+============================================ */
+footer {
+  margin-top:60px; padding:60px 20px 40px;
+  text-align:center; position:relative; overflow:hidden;
+}
+footer::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.2) 30%, rgba(155,107,255,0.2) 70%, transparent 100%);
+}
+.ft-logo {
+  font-family:'Orbitron',sans-serif; font-size:26px; font-weight:900;
+  letter-spacing:5px; text-transform:uppercase;
+  background:linear-gradient(90deg, var(--cyan), var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  filter:drop-shadow(0 0 16px rgba(0,229,255,0.3));
+  margin-bottom:8px;
+}
+.ft-sub { font-size:11px; color:var(--muted); letter-spacing:3px; font-family:'Sora',sans-serif; text-transform:uppercase; }
+.ft-note { margin-top:20px; font-size:12px; color:rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SPLASH SCREEN LIVE DEMO
+════════════════════════════════════════════ -->
+<div class="splash-demo-section">
+  <div class="splash-demo-outer">
+
+    <!-- Background elements -->
+    <div class="grid-lines"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- Top bar -->
+    <div class="splash-topbar">
+      <div class="splash-topbar-badge">Splash Screen Preview</div>
+      <div class="live-badge"><div class="live-dot"></div>LIVE ANIMATION</div>
+    </div>
+
+    <!-- Center brand -->
+    <div class="splash-center">
+      <div class="ring-system">
+        <div class="ring ring1"><div class="ring-dot"></div></div>
+        <div class="ring ring2"><div class="ring-dot"></div></div>
+        <div class="ring ring3"></div>
+        <div class="logo-core">🏠</div>
+      </div>
+
+      <div class="brand-name">KUVEXO CORE</div>
+      <div class="brand-sub">Family Life Management</div>
+
+      <div class="splash-loader">
+        <div class="splash-loader-fill"></div>
+      </div>
+      <div class="splash-loading-text">Initializing...</div>
+    </div>
+
+    <div class="splash-tagline">Your home, managed by <strong>KUVEXO CORE</strong></div>
+    <div class="scroll-hint">
+      <span>SCROLL TO EXPLORE</span>
+      <span class="arrow-down">↓</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MAIN BLUEPRINT CONTENT
+════════════════════════════════════════════ -->
+<div class="wrap"><div></div>
+<!-- ─── SECTION 2: LOGO ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num"<div></div>
+  </div>
+  <div class="names-grid">
+
+    <div class="name-card star">
+      <div class="star-pill">★ Top Pick for KUVEXO CORE</div>
+      <div class="name-big">GharOS</div>
+      <div class="name-meaning">Hindi "Ghar" + Tech "OS" = Home Operating System</div>
+      <div class="name-why">Sounds futuristic and techy — perfectly aligned with KUVEXO CORE's brand identity. "OS" signals it's the system for your home life. Short, memorable, unique in India's app market. Like "Android for your family."</div>
+    </div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 2: LOGO ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">02</div>
+    <div class="sec-title">KUVEXO CORE Logo Design</div>
+  </div>
+  <div class="card">
+    <div class="logo-showcase">
+      <div class="logo-box">🏠</div>
+      <div class="logo-info">
+        <h3> GharOS POWERED by
+        KUVEXO CORE</h3>
+        <p class="logo-desc">
+          A <strong>hexagonal shield shape</strong> containing a glowing house silhouette. The hexagon references "KUVEXO" (strength, structure), while the house inside = family life management. Inner glow pulses like a live system. Corner notch on the icon references a circuit trace — tech meets home.<br><br>
+          <strong>App Icon:</strong> 512×512 rounded square. Hex-shield on deep navy background with cyan-to-purple gradient fill. No text on icon (too small on phones).
+        </p>
+        <div class="palette">
+          <div class="pal-chip"><div class="pal-dot" style="background:linear-gradient(135deg,#04050d,#080b20)"></div>Deep Space #04050D</div>
+          <div class="pal-chip"><div class="pal-dot" style="background:#00e5ff"></div>Cyan Core #00E5FF</div>
+          <div class="pal-chip"><div class="pal-dot" style="background:#9b6bff"></div>KUVEXO Purple #9B6BFF</div>
+          <div class="pal-chip"><div class="pal-dot" style="background:#3d8ef8"></div>Electric Blue #3D8EF8</div>
+          <div class="pal-chip"><div class="pal-dot" style="background:#00ffc3"></div>Neon Mint #00FFC3</div>
+          <div class="pal-chip"><div class="pal-dot" style="background:#fff"></div>Pure White #FFFFFF</div>
+        </div>
+      </div>
+    </div>
+    <div class="divider" style="margin:22px 0 18px;"></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div>
+        <div style="font-size:12px; color:var(--muted); font-family:'Sora',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Company Logo (KUVEXO CORE)</div>
+        <div style="font-size:13px; color:var(--muted);">Hex icon + wordmark "KUVEXO CORE" in Orbitron font. "KUVEXO" in cyan, "CORE" smaller in white. Use on website, business cards, documents.</div>
+      </div>
+      <div>
+        <div style="font-size:12px; color:var(--muted); font-family:'Sora',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">App Icon (Play Store)</div>
+        <div style="font-size:13px; color:var(--muted);">Icon only (no text). Deep navy bg + glowing hex-house. Works at 16px (favicon) and 512px (store). Design free on Figma.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 3: UI DESIGN SYSTEM ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">03</div>
+    <div class="sec-title">UI/UX Design System</div>
+  </div>
+  <div class="card" style="margin-bottom:14px;">
+    <div style="font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:14px;">Design Language — "Dark Cosmos"</div>
+    <div style="font-size:13px; color:var(--muted); margin-bottom:14px;">Premium dark theme with soft cyan and purple glow. Every element feels like it's floating in space. Think: CRED meets BHIM with a cinematic Indian aesthetic.</div>
+    <div class="design-pills">
+      <span class="dpill">Glassmorphism</span>
+      <span class="dpill">Soft Glow Cards</span>
+      <span class="dpill p">Neumorphic Buttons</span>
+      <span class="dpill p">Floating Shadows</span>
+      <span class="dpill g">Lottie Animations</span>
+      <span class="dpill g">Stagger Reveals</span>
+      <span class="dpill">24px Border Radius</span>
+      <span class="dpill">Generous Spacing</span>
+      <span class="dpill p">Big 56px Buttons</span>
+      <span class="dpill">Cyan Accent Borders</span>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="card">
+    <div style="font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:4px;">Typography System</div>
+    <div style="font-size:12px; color:var(--muted); margin-bottom:16px;">3 fonts only. Never mix more.</div>
+    <div class="typo-grid">
+      <div class="typo-row">
+        <div class="typo-use">Brand / Logo</div>
+        <div class="typo-sample">
+          <div style="font-family:'Orbitron',sans-serif; font-size:22px; font-weight:900; letter-spacing:3px; background:linear-gradient(90deg,var(--cyan),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">KUVEXO CORE</div>
+        </div>
+        <div class="typo-note">Orbitron Black — futuristic, premium</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-use">Headings</div>
+        <div class="typo-sample">
+          <div style="font-family:'Sora',sans-serif; font-size:20px; font-weight:800; color:var(--text);">Screen Titles</div>
+        </div>
+        <div class="typo-note">Sora Bold — modern, readable</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-use">Body / UI</div>
+        <div class="typo-sample">
+          <div style="font-family:'DM Sans',sans-serif; font-size:15px; color:var(--text);">Labels, descriptions, list items</div>
+        </div>
+        <div class="typo-note">DM Sans — clean, Indian screen friendly</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-use">Hindi Text</div>
+        <div class="typo-sample">
+          <div style="font-size:16px; color:var(--text);">हिंदी पाठ — Hind</div>
+        </div>
+        <div class="typo-note">Hind / Noto Sans Devanagari — free Google Fonts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 4: HOME SCREEN ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">04</div>
+    <div class="sec-title">Home Screen Mockup</div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="ph-brand">KUVEXO CORE</div>
+      <div class="ph-topbar">
+        <div class="ph-greet">
+          Namaste 🙏
+          <strong>Sharma Ji 👋</strong>
+        </div>
+        <div class="ph-av">👨</div>
+      </div>
+      <div class="ph-alert">
+        ⚡ <div><strong>3 alerts today</strong> · Bill, Medicine, Doc</div>
+      </div>
+      <div class="ph-grid">
+        <div class="ph-btn c"><div class="ico">💡</div><div class="lbl">Bill Reminder</div></div>
+        <div class="ph-btn p"><div class="ico">💊</div><div class="lbl">Medicine</div></div>
+        <div class="ph-btn g"><div class="ico">📄</div><div class="lbl">Documents</div></div>
+        <div class="ph-btn b"><div class="ico">✅</div><div class="lbl">Tasks</div></div>
+        <div class="ph-btn c"><div class="ico">🛒</div><div class="lbl">Grocery</div></div>
+        <div class="ph-btn p"><div class="ico">📍</div><div class="lbl">Nearby</div></div>
+        <div class="ph-btn g wide"><div class="ico">📚</div><div class="lbl">School Notices</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px;">
+        <div style="font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:12px;">Home Screen Rules</div>
+        <div style="display:flex; flex-direction:column; gap:9px; font-size:13px; color:var(--muted);">
+          <div>✦ Top: KUVEXO CORE micro-brand line</div>
+          <div>✦ Greeting + Avatar (personalized feel)</div>
+          <div>✦ Smart Alert Banner (live reminders)</div>
+          <div>✦ 2×3 Feature Bubbles — cyan / purple / green themed</div>
+          <div>✦ 1 wide bottom card (School Notices)</div>
+          <div>✦ Zero navigation bar (ultra simple)</div>
+          <div>✦ 1 tap to any feature</div>
+          <div>✦ Each card has subtle glow border matching its color</div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Sora',sans-serif; font-size:15px; font-weight:700; margin-bottom:8px;">The 2-Tap Rule</div>
+        <div style="font-size:13px; color:var(--muted);">
+          Every action max 2 taps:<br><br>
+          <strong style="color:var(--cyan);">Tap bubble</strong> → Feature opens<br>
+          <strong style="color:var(--cyan);">Tap "+ Add"</strong> → Done<br><br>
+          No sub-menus. No settings needed for daily use. Even a 70-year-old can use it.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 5: ALL SCREENS ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">05</div>
+    <div class="sec-title">All 11 Screens</div>
+  </div>
+  <div class="screens">
+
+    <div class="sc-row">
+      <div class="sc-id">S0</div>
+      <div class="sc-body">
+        <h4>🚀 Splash Screen (KUVEXO CORE Cinematic)</h4>
+        <p>Rotating ring system → Logo core glow → "KUVEXO CORE" letter-by-letter reveal in Orbitron → Cyan loading bar → Tagline fade → Smooth transition to Home (slide-up with blur dissolve). Total: 2.5 seconds.</p>
+        <div class="sc-tags"><span class="sc-tag">Lottie Ring Animation</span><span class="sc-tag">Orbitron Font Reveal</span><span class="sc-tag">Glow Pulse</span><span class="sc-tag p">Cinematic 2.5s</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S1</div>
+      <div class="sc-body">
+        <h4>👋 Onboarding (3 Slides — First Launch Only)</h4>
+        <p>Slide 1: "Apna Ghar, Ek App Mein" · Slide 2: Features overview with icons · Slide 3: Enter your name + family size. Skip button always visible. Save to local storage.</p>
+        <div class="sc-tags"><span class="sc-tag">First Launch Only</span><span class="sc-tag">Swipe Slides</span><span class="sc-tag p">Always Skippable</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S2</div>
+      <div class="sc-body">
+        <h4>🏠 Home Dashboard</h4>
+        <p>KUVEXO CORE header strip + greeting + alert banner (if reminders today) + 7 bubble grid. Bottom: tiny "Powered by KUVEXO CORE" credit.</p>
+        <div class="sc-tags"><span class="sc-tag">Live Alert Badge</span><span class="sc-tag">Dark Cosmos Theme</span><span class="sc-tag p">1-Tap Access</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S3</div>
+      <div class="sc-body">
+        <h4>💡 Bill Reminder</h4>
+        <p>Cards listed by urgency: Red (overdue), Yellow (this week), Green (fine). Swipe left to delete, tap to edit. Big cyan "+ Add Bill" button fixed at bottom. Repeat monthly toggle.</p>
+        <div class="sc-tags"><span class="sc-tag">Color Urgency System</span><span class="sc-tag">Swipe Gestures</span><span class="sc-tag p">Monthly Repeat</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S4</div>
+      <div class="sc-body">
+        <h4>💊 Medicine Reminder</h4>
+        <p>Per-person view (Papa, Mummy, Dadi). Morning / Afternoon / Evening / Night tabs. Toggle switch per medicine. Alarm sound option. Stock running low alert.</p>
+        <div class="sc-tags"><span class="sc-tag">Per-Person Profiles</span><span class="sc-tag">Time Picker</span><span class="sc-tag p">Low Stock Alert</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S5</div>
+      <div class="sc-body">
+        <h4>📄 Document Expiry Alert</h4>
+        <p>Preset types: Aadhaar, PAN, Passport, Vehicle RC, Insurance, Driving License, Ration Card, Voter ID. Attach photo. Auto alert at 90 / 30 / 7 days before expiry.</p>
+        <div class="sc-tags"><span class="sc-tag">10 Document Types</span><span class="sc-tag">Photo Attach</span><span class="sc-tag p">3-Stage Alert</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S6</div>
+      <div class="sc-body">
+        <h4>✅ Family Task List</h4>
+        <p>Tabs: Papa / Mummy / Kids / Shared. Priority: High / Normal / Low (color coded). Satisfying Lottie checkmark on completion. Clear completed tasks with one tap.</p>
+        <div class="sc-tags"><span class="sc-tag">4 Member Tabs</span><span class="sc-tag">Priority Colors</span><span class="sc-tag p">Lottie Checkmark</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S7</div>
+      <div class="sc-body">
+        <h4>📍 Nearby Services</h4>
+        <p>6 categories: Plumber / Electrician / Doctor / Mechanic / Carpenter / Chemist. Google Maps Places API. Show name, rating, distance, call button. Simple card list, no complex map.</p>
+        <div class="sc-tags"><span class="sc-tag">6 Service Types</span><span class="sc-tag">Direct Call Button</span><span class="sc-tag p">GPS Auto-detect</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S8</div>
+      <div class="sc-body">
+        <h4>🛒 Grocery List</h4>
+        <p>Quick-add with smart suggestions (from history). Quantity + unit selector. Check off items while shopping. 1-tap "Share on WhatsApp" as text list. Clear all bought items at once.</p>
+        <div class="sc-tags"><span class="sc-tag">Smart Suggestions</span><span class="sc-tag">WhatsApp Share</span><span class="sc-tag p">Quantity Units</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S9</div>
+      <div class="sc-body">
+        <h4>📚 School / College Notice Storage</h4>
+        <p>Camera capture notice → Auto-date stamp → Tag with child's name and school. Calendar view for event dates. Reminder option. Share notice with family.</p>
+        <div class="sc-tags"><span class="sc-tag">Camera Capture</span><span class="sc-tag">Auto Date Tag</span><span class="sc-tag p">Calendar View</span></div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc-id">S10</div>
+      <div class="sc-body">
+        <h4>⚙️ Settings + Profile</h4>
+        <p>Family member names (up to 6), language toggle (Hindi / English), notification time, cloud backup (Google Drive optional), "Delete All My Data" button, app version, KUVEXO CORE branding footer.</p>
+        <div class="sc-tags"><span class="sc-tag">Lang Switch</span><span class="sc-tag">Optional Backup</span><span class="sc-tag p">Data Delete</span><span class="sc-tag">KUVEXO CORE Footer</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 6: TECH STACK ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">06</div>
+    <div class="sec-title">Tech Stack Recommendation</div>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-badge tb-best">⭐ Best for You</div>
+      <h4>FlutterFlow</h4>
+      <p>No-code + real Flutter export. Drag-drop design. Real Android APK. $30/month. Beginner-friendly + scalable.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-badge tb-free">Free</div>
+      <h4>Flutter SDK</h4>
+      <p>If you code (even basics). Best performance on low-end Indian Android phones. Google backed, massive community.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-badge tb-free">Free Tier</div>
+      <h4>Firebase</h4>
+      <p>Push notifications, optional cloud backup. Free up to 1GB. Plug-and-play with FlutterFlow.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-badge tb-free">Free</div>
+      <h4>Hive DB</h4>
+      <p>Local offline database. Zero internet needed. Lightning fast. Perfect for privacy-first Indian family app.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-badge tb-free">Free ($200/mo credit)</div>
+      <h4>Google Maps API</h4>
+      <p>Nearby Services screen. Places API → search by category near GPS location. Direct call integration.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-badge tb-free">Free</div>
+      <h4>Figma + LottieFiles</h4>
+      <p>Design all screens in Figma (free). Use LottieFiles.com for free animations (checkmark, loading, success).</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 7: BUILD GUIDE ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">07</div>
+    <div class="sec-title">Step-by-Step Build Guide</div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-dot">01</div>
+      <div class="step-body">
+        <h4>Brand Setup — KUVEXO CORE Identity (Days 1–3)</h4>
+        <p>Finalize app name (GharOS recommended). Create logo in Figma using hex-shield concept. Export 512×512 PNG. Register domain (kuvexocore.com or gharo.app). Set up brand color variables.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">02</div>
+      <div class="step-body">
+        <h4>Design All Screens in Figma (Days 4–10)</h4>
+        <p>Create 375×812px frames (iPhone size — Flutter will adapt). Design Splash → Onboarding → Home → all 8 feature screens → Settings. Use the Dark Cosmos color palette. Export assets.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">03</div>
+      <div class="step-body">
+        <h4>FlutterFlow Project Setup (Days 11–14)</h4>
+        <p>New project at flutterflow.io. Import Figma via FlutterFlow Figma plugin OR rebuild manually (faster). Set theme colors, fonts (Orbitron + Sora + DM Sans). Create reusable components: feature card, button, header.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">04</div>
+      <div class="step-body">
+        <h4>Splash Screen + Onboarding (Days 15–17)</h4>
+        <p>Add Lottie animation to splash (ring-pulse from LottieFiles). Set 2.5s timer → navigate to Home. Build 3 onboarding slides with swipe. Store user name in Hive on completion. Add "Skip" logic.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">05</div>
+      <div class="step-body">
+        <h4>Core Features — Bill + Medicine + Docs (Days 18–28)</h4>
+        <p>Build CRUD screens: Add → List → Delete for each. Connect to Hive local DB. Set up local push notifications (flutter_local_notifications package). Test reminders on real device. Color urgency logic.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">06</div>
+      <div class="step-body">
+        <h4>Tasks + Grocery + Notices (Days 29–35)</h4>
+        <p>Task list with per-member tabs. Grocery with WhatsApp share (url_launcher package). School notices with camera capture (image_picker). Store photos in local app folder.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">07</div>
+      <div class="step-body">
+        <h4>Nearby Services — Google Maps Integration (Days 36–40)</h4>
+        <p>Enable Google Maps Places API in Google Console. Add API key to FlutterFlow. Build search UI: user taps category → app searches "plumber near [GPS]" → shows card list with call button.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">08</div>
+      <div class="step-body">
+        <h4>Testing — Real Phone Testing (Days 41–46)</h4>
+        <p>Install on 3 different Android phones (₹5K, ₹15K, ₹30K range). Ask 1 elderly person to test without guidance — watch where they get confused. Fix those points. Test all notifications. Test on Hindi language.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">09</div>
+      <div class="step-body">
+        <h4>Play Store Launch Prep (Days 47–52)</h4>
+        <p>Create store graphics (feature image 1024×500, screenshots 1080×1920). Write description in Hindi + English. Generate Privacy Policy free at termsfeed.com. Submit APK to Google Play Console ($25 one-time).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot">10</div>
+      <div class="step-body">
+        <h4>Launch + Marketing (Day 53+)</h4>
+        <p>Share in 20 WhatsApp family groups. Make 2 YouTube Shorts showing "before/after" — messy paper reminders vs GharOS. Post on Facebook Indian parenting / housing groups. Ask first 50 users for Play Store review.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 8: MONETIZATION ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">08</div>
+    <div class="sec-title">Monetization Strategy</div>
+  </div>
+  <div class="mono-grid">
+    <div class="mono-card">
+      <div class="mono-ico">👑</div>
+      <div class="mono-ttl">KUVEXO Plus Monthly</div>
+      <div class="mono-amt">₹99/mo</div>
+      <div class="mono-desc">Cloud backup, unlimited family profiles, premium dark themes, PDF export, no ads ever.</div>
+    </div>
+    <div class="mono-card">
+      <div class="mono-ico">🔄</div>
+      <div class="mono-ttl">KUVEXO Plus Annual</div>
+      <div class="mono-amt">₹699/yr</div>
+      <div class="mono-desc">₹58/month effective. "2 months free" messaging. Indian users prefer annual billing.</div>
+    </div>
+    <div class="mono-card">
+      <div class="mono-ico">🤝</div>
+      <div class="mono-ttl">Referral Rewards</div>
+      <div class="mono-amt">1 Month Free</div>
+      <div class="mono-desc">Invite 3 friends = 1 free month Plus. Viral loop for WhatsApp-heavy Indian market.</div>
+    </div>
+  </div>
+  <div class="rev-grid">
+    <div class="rev-box">
+      <div class="rev-period">Month 3</div>
+      <div class="rev-amt" style="color:var(--blue);">₹5K–10K</div>
+      <div class="rev-users">~70–100 paid users</div>
+    </div>
+    <div class="rev-box">
+      <div class="rev-period">Month 6</div>
+      <div class="rev-amt" style="color:var(--cyan);">₹25K–50K</div>
+      <div class="rev-users">~300–500 paid users</div>
+    </div>
+    <div class="rev-box">
+      <div class="rev-period">Month 12</div>
+      <div class="rev-amt" style="color:var(--green);">₹1L–3L</div>
+      <div class="rev-users">~1,000–3,000 paid</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 9: PRIVACY ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">09</div>
+    <div class="sec-title">Privacy & Security Policy</div>
+  </div>
+  <div class="priv-grid">
+    <div class="priv-card"><div class="priv-ico">📱</div><div class="priv-text"><strong>Local-First Storage</strong><span>All data saved on user's phone. Internet only for Nearby Services + optional backup.</span></div></div>
+    <div class="priv-card"><div class="priv-ico">🔐</div><div class="priv-text"><strong>Encrypted Database</strong><span>Hive with AES encryption. No one can read your family's data even if phone is stolen.</span></div></div>
+    <div class="priv-card"><div class="priv-ico">❌</div><div class="priv-text"><strong>Zero Unnecessary Permissions</strong><span>No contacts, no microphone. Only: Camera (notices), GPS (nearby), Storage (photos).</span></div></div>
+    <div class="priv-card"><div class="priv-ico">☁️</div><div class="priv-text"><strong>Optional Cloud Backup</strong><span>Google Drive backup — default OFF. User chooses. Data encrypted before upload.</span></div></div>
+    <div class="priv-card"><div class="priv-ico">🗑️</div><div class="priv-text"><strong>Delete Everything</strong><span>Settings → "Delete All My Data" → 1 tap, all data wiped instantly. No questions asked.</span></div></div>
+    <div class="priv-card"><div class="priv-ico">🚫</div><div class="priv-text"><strong>No Tracking, No Ads</strong><span>Zero analytics on personal data. No ad SDKs. KUVEXO CORE never sells user data.</span></div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── SECTION 10: PLAY STORE ─── -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-num">10</div>
+    <div class="sec-title">Play Store Launch Checklist</div>
+  </div>
+  <div class="checklist">
+    <div class="chk-item"><div class="chk-ico">🏪</div><div class="chk-text"><strong>Google Play Console Account</strong><span>play.google.com/console — $25 one-time fee. Use Google account. Takes 1 day to activate.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">🎨</div><div class="chk-text"><strong>App Icon — 512×512 PNG</strong><span>KUVEXO CORE hex-shield icon. No text (too small). No transparency. Rounded corners shown by Play Store automatically.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">🖼️</div><div class="chk-text"><strong>Feature Graphic — 1024×500 PNG</strong><span>Banner shown at top of store listing. Show app name "GharOS by KUVEXO CORE" with phone mockup on dark background.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">📱</div><div class="chk-text"><strong>Screenshots — Min 4, Max 8</strong><span>1080×1920px. Show: Splash, Home, Bill Reminder, Medicine, and Nearby screens. Add text overlay on each screenshot.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">✍️</div><div class="chk-text"><strong>Short Description (80 chars)</strong><span>"Ghar ka saara kaam ek app mein — bills, medicine, documents, tasks 🏠" — Hindi-first for Indian market.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">📝</div><div class="chk-text"><strong>Full Description (4000 chars)</strong><span>Hindi first, then English. Keywords: family app India, bill reminder, medicine reminder, gharelu app, family manager. Include KUVEXO CORE brand name throughout.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">🔒</div><div class="chk-text"><strong>Privacy Policy URL (Required)</strong><span>Generate free at termsfeed.com. Host free on GitHub Pages (kuvexocore.github.io/privacy). Without this, app gets rejected.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">📂</div><div class="chk-text"><strong>Category: Productivity</strong><span>Highest search volume for this type of app. Tags: family, reminder, home management, organizer.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">⏱️</div><div class="chk-text"><strong>Review Time: 3–7 Days</strong><span>First submission takes longer. Keep version 1.0 simple — fewer features = faster approval. Add features in updates.</span></div></div>
+    <div class="chk-item"><div class="chk-ico">🚀</div><div class="chk-text"><strong>Launch Strategy</strong><span>First 50 downloads: share in WhatsApp groups. Ask for ⭐⭐⭐⭐⭐ reviews immediately — it boosts Play Store algorithm ranking.</span></div></div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">KUVEXO CORE</div>
+  <div class="ft-sub">Premium App Blueprint · Family Life Management</div>
+  <div class="ft-note">© 2025 KUVEXO CORE · All Rights Reserved · India's Premium Family Tech Brand</div>
+</footer>
+
+</body>
+</html>
